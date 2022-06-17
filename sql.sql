@@ -1,0 +1,152 @@
+CREATE TABLE IF NOT EXISTS `evo_phone_accounts` (
+	`id` INT(11) NOT NULL,
+    `app` VARCHAR(50) NOT NULL,
+	`name` VARCHAR(50) NOT NULL,
+	`username` VARCHAR(50) NULL,
+	`phone` VARCHAR(50) NULL,
+	`password` VARCHAR(50) NOT NULL,
+	`birthdate` DATE NULL DEFAULT current_timestamp(),
+	`gender` VARCHAR(50) NULL,
+	`interested` VARCHAR(50) NULL,
+	`avatar` TEXT NULL DEFAULT NULL,
+	`description` TEXT NULL DEFAULT NULL,
+	`passions` TEXT NULL DEFAULT NULL,
+	`cover` TEXT NULL DEFAULT NULL,
+	`verify` TINYINT(1) NULL DEFAULT '0'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_calls` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+  	`phone` varchar(50) NOT NULL,
+  	`number` varchar(50) NOT NULL,
+  	`type` varchar(50) NOT NULL,
+  	`status` int(11) NOT NULL,
+  	`created` DATETIME NULL DEFAULT NULL,
+  	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_chats` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`author` VARCHAR(50) NOT NULL,
+	`type` varchar(50) NOT NULL,
+	`number` varchar(50) NULL DEFAULT NULL,
+	`name` varchar(50) NULL DEFAULT NULL,
+	`image` varchar(255) NULL DEFAULT NULL,
+	`password` varchar(255) NULL DEFAULT NULL,
+	`created` DATETIME NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_chats_users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`number` varchar(50) NOT NULL,
+	`admin` TINYINT(4) NOT NULL DEFAULT '0',
+	`author` varchar(50) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_comments` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`post_id` INT(11) NOT NULL,
+	`author` VARCHAR(50) NOT NULL,
+	`description` TEXT NULL DEFAULT NULL,
+	`created` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_contacts` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(11) NOT NULL,
+	`number` VARCHAR(50) NOT NULL,
+	`display` VARCHAR(50) NOT NULL,
+	`bank` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_followers` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	`followed` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_likes` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`post_id` INT(11) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_messages` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`id_chat` INT(11) NOT NULL,
+	`owner` varchar(50) NOT NULL,
+  	`type` varchar(50) NOT NULL,
+	`message` TEXT NOT NULL,
+	`created` DATETIME NOT NULL,
+	`read` TINYINT(4) NOT NULL DEFAULT '0',
+	`deleted` varchar(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE,
+	INDEX `evo_phone_messages` (`id_chat`) USING BTREE,
+	CONSTRAINT `evo_phone_messages` FOREIGN KEY (`id_chat`) REFERENCES `evo_phone_chats` (`id`) ON UPDATE RESTRICT ON DELETE RESTRICT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_messages_app` (
+  	`id` int(11) NOT NULL AUTO_INCREMENT,
+  	`phone` varchar(50) NOT NULL,
+  	`number` varchar(50) NOT NULL,
+  	`owner` varchar(50) NOT NULL,
+  	`message` TEXT NOT NULL,
+  	`type` varchar(50) NOT NULL,
+	`read` TINYINT(4) NOT NULL DEFAULT '0',
+  	`created` DATETIME NULL DEFAULT NULL,
+  	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_posts` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`author` VARCHAR(50) NOT NULL,
+	`title` VARCHAR(255) NULL DEFAULT NULL,
+	`image` TEXT DEFAULT NULL,
+	`description` TEXT NULL DEFAULT NULL,
+	`location` VARCHAR(255) NULL DEFAULT NULL,
+	`filter` VARCHAR(255) NULL DEFAULT NULL,
+	`hashtags` TEXT DEFAULT NULL,
+	`mentions` TEXT DEFAULT NULL,
+	`price` VARCHAR(255) NULL DEFAULT NULL,
+	`created` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_settings` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(11) NOT NULL,
+	`option` VARCHAR(50) NOT NULL,
+	`value` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_stories` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+    `app` VARCHAR(50) NOT NULL,
+	`author` VARCHAR(50) NOT NULL,
+	`image` TEXT NOT NULL,
+	`description` VARCHAR(255) NULL,
+	`location` VARCHAR(255) NULL DEFAULT NULL,
+	`filter` VARCHAR(255) NULL DEFAULT NULL,
+	`created` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `evo_phone_tinder_likes` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`id_user` INT(11) NOT NULL,
+	`id_liked` INT(11) NOT NULL,
+	`created` DATETIME NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
